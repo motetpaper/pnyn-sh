@@ -13,7 +13,7 @@ sheng1 ri4 kuai4 le4
 
 Grab the package from here:
 ```bash
-wget https://github.com/motetpaper/pnyn-sh/releases/download/v0.1.1/pnyn-v0.1.1.deb
+$ wget https://github.com/motetpaper/pnyn-sh/releases/download/v0.1.1/pnyn-v0.1.1.deb
 ```
 
 Install the Debian package.
