@@ -1,0 +1,76 @@
+# make a Debian package using GitHub repo contents
+
+name: mkdeb
+
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - "v*.*.*"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      appname: pnyn
+
+    permissions:
+      contents: write
+
+    steps:
+        - name: checkout
+          uses: actions/checkout@v4
+
+        - name: build the Debian package
+          run: |
+            ## pre-flight env and tree check
+            tree
+            env
+
+            ## make a new package folder
+            mkdir -p ${{ env.appname }}
+
+            ## move all folders to package folder root
+            mv usr DEBIAN ${{ env.appname }}
+
+            ## check the tree
+            tree
+
+            ## make main script executable with no file extension
+            fn=$(find ${{ env.appname }} -type f -name ${{ env.appname }}.sh)
+            fx=${fn%%.sh}
+            mv $fn $fx
+            sudo chmod +x $fx
+
+            ## then, compress the man page
+            gzip $(find ${{ env.appname }} -type f -name ${{ env.appname }}.1)
+
+            ## one more tree check
+            tree
+            pwd
+
+            echo "ready to build ... "
+
+            ## build the debian package
+            dpkg -b ${{ env.appname }} ${{ env.appname }}-${{ github.ref_name }}.deb
+
+            ## test install the debian package
+            sudo apt install ./${{ env.appname }}-${{ github.ref_name }}.deb
+
+            ${{ env.appname }}
+
+            foo=$(man ${{ env.appname }})
+            echo $foo
+
+        - name: release
+          uses: softprops/action-gh-release@v2
+          if: github.ref_type == 'tag'
+          with:
+            files: ${{ env.appname }}-${{ github.ref_name }}.deb
+            draft: true
+            body: |
+              # What's New in ${{ github.ref_name }}
+
+              This is a release draft.
+                + Item 1.
+                + Item 2.
