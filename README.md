@@ -5,6 +5,7 @@ $ pnyn 生日快乐
 sheng1 ri4 kuai4 le4
 ```
 
+# INSTALL
 
 [Download][latest] the latest from the release page.
 
@@ -25,4 +26,8 @@ Convert Chinese to Hanyu Pinyin
 $ pnyn 生日快乐
 sheng1 ri4 kuai4 le4
 ```
+
+# LICENSE
+  + MIT
+
 [latest]: https://github.com/motetpaper/pnyn-sh/releases/latest
