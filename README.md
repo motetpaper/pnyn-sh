@@ -1,11 +1,10 @@
-Command line Chinese to Hanyu Pinyin for Ubuntu Linux
+# Command line Chinese to Hanyu Pinyin for Ubuntu Linux
 
-# What's New in v0.1.1
-  + It works.
-  + Yep.
+```bash
+$ pnyn 生日快乐
+sheng1 ri4 kuai4 le4
+```
 
->[!IMPORTANT]
-> ***This is just a pre-release. Pushing code to see what works.***
 
 [Download][latest] the latest from the release page.
 
