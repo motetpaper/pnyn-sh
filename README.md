@@ -31,12 +31,12 @@ nĭ hăo
 
 Convert tone numbers to [ISO-compliant][iso] tone marks.
 ```bash
-$ pnyn tonemarks ni3 hao3
-nĭ hăo
+$ pnyn tonemarksiso ni3 hao3
+nǐ hǎo
 ```
 
 
-Convert Chinese to Hanyu Pinyin
+Convert Chinese to Hanyu Pinyin (Hanzi to Pinyin)
 ```bash
 $ pnyn pinyin 生日快乐
 sheng1 ri4 kuai4 le4
