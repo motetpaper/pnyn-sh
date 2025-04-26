@@ -13,19 +13,41 @@ sheng1 ri4 kuai4 le4
 
 Grab the package from here:
 ```bash
-$ wget https://github.com/motetpaper/pnyn-sh/releases/download/v0.1.1/pnyn-v0.1.1.deb
+$ wget https://github.com/motetpaper/pnyn-sh/releases/download/v0.8.1/pnyn-v0.8.1.deb
 ```
 
 Install the Debian package.
 ```bash
-$ sudo apt install ./pnyn-v0.1.1.deb
+$ sudo apt install ./pnyn-v0.8.1.deb
 ```
+
+## Getting Start
+
+Convert tone numbers to tone marks.
+```bash
+$ pnyn tonemarks ni3 hao3
+nĭ hăo
+```
+
 
 Convert Chinese to Hanyu Pinyin
 ```bash
-$ pnyn 生日快乐
+$ pnyn pinyin 生日快乐
 sheng1 ri4 kuai4 le4
 ```
+
+Convert Chinese characters to Hanyu Pinyin tone marks.
+```bash
+$ pnyn pinyin 生日快乐 | xargs pnyn tonemarks
+shēng rì kuài lè
+```
+
+Convert Chinese characters to [ISO-compliant](https://www.iso.org/standard/61420.html) Hanyu Pinyin tone marks.
+```bash
+$ pnyn pinyin 生日快乐 | xargs pnyn tonemarksiso
+shēng rì kuài lè
+```
+
 
 # LICENSE
   + MIT
