@@ -1,0 +1,33 @@
+.TH PNYN 1
+.SH NAME
+PNYN \- Converts Chinese characters to Hanyu Pinyin.
+
+.SH SYNOPSIS
+.B pnyn STRING
+
+.SH EXAMPLE
+.B $ pnyn p 你好
+.PP
+ni3 hao3
+
+
+.SH EXAMPLE
+.B $ pnyn pinyin 生日快乐
+.PP
+sheng1 ri4 kuai4 le4
+
+
+.SH EXAMPLE
+.B $ pnyn p 生日快乐 | xargs pnyn pmash
+.PP
+sheng1ri4kuai4le4
+
+
+.SH EXAMPLE
+.B $ pnyn p 生日快乐 | xargs pnyn pbash
+.PP
+shengrikuaile
+
+.SH VERSION
+.B v0.8.1
+
