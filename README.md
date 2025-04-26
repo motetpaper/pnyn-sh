@@ -29,6 +29,12 @@ $ pnyn tonemarks ni3 hao3
 nĭ hăo
 ```
 
+Convert tone numbers to [ISO-compliant][iso] tone marks.
+```bash
+$ pnyn tonemarks ni3 hao3
+nĭ hăo
+```
+
 
 Convert Chinese to Hanyu Pinyin
 ```bash
@@ -42,7 +48,7 @@ $ pnyn pinyin 生日快乐 | xargs pnyn tonemarks
 shēng rì kuài lè
 ```
 
-Convert Chinese characters to [ISO-compliant](https://www.iso.org/standard/61420.html) Hanyu Pinyin tone marks.
+Convert Chinese characters to ISO-compliant Hanyu Pinyin tone marks.
 ```bash
 $ pnyn pinyin 生日快乐 | xargs pnyn tonemarksiso
 shēng rì kuài lè
@@ -52,4 +58,5 @@ shēng rì kuài lè
 # LICENSE
   + MIT
 
+[iso]: https://www.iso.org/standard/61420.html
 [latest]: https://github.com/motetpaper/pnyn-sh/releases/latest
