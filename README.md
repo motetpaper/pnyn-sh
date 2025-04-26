@@ -21,7 +21,7 @@ Install the Debian package.
 $ sudo apt install ./pnyn-v0.8.1.deb
 ```
 
-## Getting Start
+# Getting Started
 
 Convert tone numbers to tone marks.
 ```bash
