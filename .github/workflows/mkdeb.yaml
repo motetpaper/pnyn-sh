@@ -27,23 +27,19 @@ jobs:
             tree
             env
 
-            ## make a new package folder
-            mkdir -p ${{ env.appname }}
-
-            ## move all folders to package folder root
-            mv usr DEBIAN ${{ env.appname }}
-
             ## check the tree
             tree
 
             ## make main script executable with no file extension
-            fn=$(find ${{ env.appname }} -type f -name ${{ env.appname }}.sh)
+            fn=$(find src -type f -name ${{ env.appname }}.sh)
             fx=${fn%%.sh}
+            echo $fn
+            echo $fx
             mv $fn $fx
             sudo chmod +x $fx
 
             ## then, compress the man page
-            gzip $(find ${{ env.appname }} -type f -name ${{ env.appname }}.1)
+            gzip $(find src -type f -name ${{ env.appname }}.1)
 
             ## one more tree check
             tree
@@ -52,7 +48,7 @@ jobs:
             echo "ready to build ... "
 
             ## build the debian package
-            dpkg -b ${{ env.appname }} ${{ env.appname }}-${{ github.ref_name }}.deb
+            dpkg -b src ${{ env.appname }}-${{ github.ref_name }}.deb
 
             ## test install the debian package
             sudo apt install ./${{ env.appname }}-${{ github.ref_name }}.deb
