@@ -1,7 +1,7 @@
 # Command line Chinese to Hanyu Pinyin for Ubuntu Linux
 
 ```bash
-$ pnyn 生日快乐
+$ pnyn pinyin 生日快乐
 sheng1 ri4 kuai4 le4
 ```
 
