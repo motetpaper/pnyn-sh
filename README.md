@@ -2,7 +2,12 @@
 
 ```bash
 $ pnyn pinyin 生日快乐
-sheng1 ri4 kuai4 le4
+# sheng1 ri4 kuai4 le4
+```
+
+```bash
+$ pnyn p 生日快乐
+# sheng1 ri4 kuai4 le4
 ```
 
 # INSTALL
