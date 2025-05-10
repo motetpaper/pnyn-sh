@@ -1,11 +1,21 @@
 #!/usr/bin/env bash
-
-## pnyn v0.8.1
+##
+## pnyn v0.8.5
 ## job    : provides command-line pinyin processing for Ubuntu Linux
 ## git    : https://github.com/motetpaper/pnyn-sh
 ## lic    : MIT
 ##
+##
+##
+##
 
+###
+### message area
+###
+###
+###
+PROG=$(basename $0)
+VERSION="v0.8.5"
 
 ## text decorations
 REDRED="\033[31m"
@@ -13,15 +23,41 @@ RS="\033[0m"
 B_ON="\e[1m"
 B_OFF="\e[0m"
 
+msg() {
+  echo "$1"
+  echo
+}
+
+info_msg() {
+  echo "[$PROG] try this: $ $1"
+  echo
+}
+
+## prints to stderr
+err_msg() {
+  echo -e "[$PROG] ${REDRED}ERROR:${RS}$1" >&2
+  echo
+}
+
+###
+### help area
+###
+###
+###
+
 aboutbox() {
-  echo "pnyn, hanyu pinyin tools, v0.8.1, MOTETPAPER (C) 2025, MIT License";
+  echo "pnyn, hanyu pinyin tools, ${VERSION}, MOTETPAPER (C) 2025, MIT License";
 }
 
 ## displays command line options
 usage() {
   PROMPT_A="Available commands for PNYN services"
-  echo -e "
-${B_ON}${PROMPT_A}${B_OFF}
+  echo -e "${B_ON}${PROMPT_A}${B_OFF}
+
+    pnyn pinyin STRING
+    pnyn tonemarks STRING
+    pnyn tonemarksiso STRING
+    pnyn notones STRING
 
     pnyn version
     pnyn -v
@@ -29,15 +65,21 @@ ${B_ON}${PROMPT_A}${B_OFF}
     pnyn help
     pnyn -h
 
-    pnyn pinyin STRING
-    pnyn tonemarks STRING
-    pnyn tonemarksiso STRING
-    pnyn notones STRING
-
-    pnyn pmash STRING
-    pnyn pbash STRING
+    LEARN MORE: man pnyn
 "
+}
 
+
+###
+### conversion area
+###
+###
+###
+
+pnyn_remove_pinyin_ascii() {
+  ## removes numbers and letters, and umlaut colon
+  ## removes leading and trailing spaces
+  echo $(echo "$1" | tr -d [[:alnum:]] | tr -d ':' | xargs )
 }
 
 ## converts chinese to hanyu pinyin using CC-CEDICT dictionary data
@@ -58,8 +100,15 @@ pnyn_cmd_pinyin() {
 ## converts tone numbers to ISO-compliant tone marks
 pnyn_cmd_tonemarksiso() {
 
-  indata="$1"
-  outdata="$1"
+  str=""
+  if [[ -z $(pnyn_remove_pinyin_ascii "$1" ) ]]; then
+    str="$1"
+  else
+    str=$(pnyn_cmd_pinyin "$1")
+  fi
+
+  indata="$str"
+  outdata="$str"
   tmisodata="/usr/share/motetpaper/pnyn/tmiso.txt"
   tfdata="/usr/share/motetpaper/pnyn/tf.txt"
 
@@ -80,8 +129,15 @@ pnyn_cmd_tonemarksiso() {
 ## converts tone numbers to (legacy) tone marks
 pnyn_cmd_tonemarks() {
 
-  indata="$1"
-  outdata="$1"
+  str=""
+  if [[ -z $(pnyn_remove_pinyin_ascii "$1" ) ]]; then
+    str="$1"
+  else
+    str=$(pnyn_cmd_pinyin "$1")
+  fi
+
+  indata=$str
+  outdata=$str
   tmdata="/usr/share/motetpaper/pnyn/tm.txt"
   tfdata="/usr/share/motetpaper/pnyn/tf.txt"
 
@@ -101,8 +157,16 @@ pnyn_cmd_tonemarks() {
 
 ## removes all tones from recognized pinyin tonemes
 pnyn_cmd_tonesremoved() {
-  indata="$1"
-  outdata="$1"
+
+  str=""
+  if [[ -z $(pnyn_remove_pinyin_ascii "$1" ) ]]; then
+    str="$1"
+  else
+    str=$(pnyn_cmd_pinyin "$1")
+  fi
+
+  indata="$str"
+  outdata="$str"
   trdata="/usr/share/motetpaper/pnyn/tr.txt"
   tfdata="/usr/share/motetpaper/pnyn/tf.txt"
 
@@ -120,26 +184,93 @@ pnyn_cmd_tonesremoved() {
   echo $outdata | xargs
 }
 
+
+###
 ### metapinyin idioms area
 ### metapinyin makes pinyin documents more searchable
+###
+###
+###
 
-# removes spaces, then diacritics
+# PMASH removes spaces
 pnyn_cmd_pmash() {
-  echo "$1" | tr -d [[:space:]] | iconv -f utf8 -t ascii//TRANSLIT
-  echo
+
+  str=""
+  if [[ -z $(pnyn_remove_pinyin_ascii "$1" ) ]]; then
+    str="$1"
+  else
+    str=$(pnyn_cmd_pinyin "$1")
+  fi
+
+  echo $str | tr -d [[:blank:]]
 }
 
-# removes spaces and diacritics, then digits
+## PBASH removes tone marks, tone numbers, and spaces
 pnyn_cmd_pbash() {
-  echo $(pnyn_cmd_pmash "$1") | tr -d [[:digit:]]
+
+  str=""
+  if [[ -z $(pnyn_remove_pinyin_ascii "$1" ) ]]; then
+    str="$1"
+  else
+    str=$(pnyn_cmd_pinyin "$1")
+  fi
+
+  echo $(pnyn_cmd_tonesremoved "$str" | tr -d [[:space:]])
 }
 
+
+## PSMASH returns the initials of each pinyin word
+pnyn_cmd_psmash() {
+
+  str=""
+  if [[ -z $(pnyn_remove_pinyin_ascii "$1" ) ]]; then
+    str="$1"
+  else
+    str=$(pnyn_cmd_pinyin "$1")
+  fi
+
+  psmash=""
+  IFS=' ' read -r -a arr <<< $str
+  for i in $(seq 1 ${#arr[@]}); do
+    psmash=$psmash${arr[i-1]:0:1}
+  done
+
+  echo $psmash | xargs
+}
+
+## DEVELOPER NOTES:
+## PSLUG is designed for use with the WordPress
+## wp_unique_post_slug function that creates user-friendly URLS
+##
+## PSLUG removes tone marks, tone numbers, and replaces
+## horizontal spaces with dashes.
+##
+## See the WordPress codex for details:
+## https://developer.wordpress.org/reference/functions/wp_unique_post_slug/
+
+pnyn_cmd_pslug() {
+
+  str=""
+  if [[ -z $(pnyn_remove_pinyin_ascii "$1" ) ]]; then
+    str="$1"
+  else
+    str=$(pnyn_cmd_pinyin "$1")
+  fi
+
+  echo $(pnyn_cmd_tonesremoved "$str" | xargs | tr [[:blank:]] '-')
+}
+
+##
 ## command area
+##
+##
+##
+
 pnyn_cmd() {
 #  echo $0 $1 # debug
 #  echo $@ # debug
   if [[ -z "$1" ]]; then
-    echo -e "${REDRED}ERROR:${RS}$PROG Command name argument expected.";
+    err_msg "Command name argument expected."
     usage
   else
 
@@ -159,7 +290,8 @@ pnyn_cmd() {
     if [[ "notones" == $1 || "tonesremoved" == $1 || "tr" == $1 ]];then
 
       if [[ -z "$2" ]]; then
-        echo -e "${REDRED}ERROR:${RS}[pnyn.tonesremoved] Command name argument expected.";
+        err_msg "[pnyn.tonesremoved] String input expected.";
+        info_msg "pnyn tonesremoved ni3 hao3"
         usage
       else
         foo="${@:2}"
@@ -172,10 +304,8 @@ pnyn_cmd() {
     if [[ "tonemarks" == $1 || "tm" == $1 ]];then
 
       if [[ -z "$2" ]]; then
-        echo -e "${REDRED}ERROR:${RS}[pnyn.tonemarks] String input expected.";
-        echo "
-        Try this: $ pnyn tonemarks ni3 hao3
-        "
+        err_msg "[pnyn.tonemarks] String input expected.";
+        info_msg "pnyn tonemarks ni3 hao3"
       else
         foo="${@:2}"
         pnyn_cmd_tonemarks "${foo[*]}"
@@ -187,10 +317,8 @@ pnyn_cmd() {
     if [[ "tonemarksiso" == $1 || "tmiso" == $1 ]];then
 
       if [[ -z "$2" ]]; then
-        echo -e "${REDRED}ERROR:${RS}[pnyn.tonemarksiso] String input expected.";
-        echo "
-        Try this: $ pnyn tonemarksiso ni3 hao3
-        "
+        err_msg "[pnyn.tonemarksiso] String input expected.";
+        info_msg "pnyn tonemarksiso ni3 hao3"
       else
         foo="${@:2}"
         pnyn_cmd_tonemarksiso "${foo[*]}"
@@ -202,10 +330,8 @@ pnyn_cmd() {
     if [[ "pinyin" == $1 || "p" == $1 ]];then
 
       if [[ -z "$2" ]]; then
-        echo -e "${REDRED}ERROR:${RS}[pnyn.pinyin``] String input expected.";
-        echo "
-        Try this: $ pnyn pinyin ni3 hao3
-        "
+        err_msg "[pnyn.pinyin] String input expected.";
+        info_msg "pnyn pinyin 生日快乐"
       else
         foo="${@:2}"
         pnyn_cmd_pinyin "${foo[*]}"
@@ -217,7 +343,8 @@ pnyn_cmd() {
     if [[ "pmash" == $1 ]];then
 
       if [[ -z "$2" ]]; then
-        echo -e "${REDRED}ERROR:${RS}[pnyn.pmash] String input expectedd.";
+        err_msg "[pnyn.pmash] String input expected.";
+        info_msg "pnyn psmash sheng1 ri4 kuai4 le4"
         usage
       else
         foo="${@:2}"
@@ -230,7 +357,8 @@ pnyn_cmd() {
     if [[ "pbash" == $1 ]];then
 
       if [[ -z "$2" ]]; then
-        echo -e "${REDRED}ERROR:${RS}[pnyn.pbash] String input expectedd.";
+        err_msg "[pnyn.pbash] String input expected.";
+        info_msg "pnyn pbash sheng1 ri4 kuai4 le4"
         usage
       else
         foo="${@:2}"
@@ -240,14 +368,43 @@ pnyn_cmd() {
       return
     fi
 
+    if [[ "psmash" == $1 ]];then
+
+      if [[ -z "$2" ]]; then
+        err_msg "[pnyn.psmash] String input expectedd.";
+        info_msg "pnyn psmash sheng1 ri4 kuai4 le4"
+        usage
+      else
+        foo="${@:2}"
+        pnyn_cmd_psmash "${foo[*]}"
+      fi
+
+      return
+    fi
+
+
+    if [[ "pslug" == $1 ]];then
+
+      if [[ -z "$2" ]]; then
+        err_msg "[pnyn.slug] String input expectedd.";
+        info_msg "pnyn pslug 生日快乐"
+        usage
+      else
+        foo="${@:2}"
+        pnyn_cmd_pslug "${foo[*]}"
+      fi
+
+      return
+    fi
+
     ## if you made it down here,
     ## something went wrong ...
 
-    echo -e "${REDRED}ERROR:${RS}$PROG Command name argument not found.";
+    err_msg "Command name argument not found."
     usage
     return
   fi
 }
 
-pnyn_cmd $@
+pnyn_cmd "$@"
 

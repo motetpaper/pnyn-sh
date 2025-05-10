@@ -1,9 +1,11 @@
 .TH PNYN 1
 .SH NAME
-PNYN \- Converts Chinese characters to Hanyu Pinyin.
+PNYN \- Converts Chinese characters to Hanyu Pinyin, and more
+
 
 .SH SYNOPSIS
-.B pnyn STRING
+.B pnyn function STRING
+
 
 .SH EXAMPLE
 .B $ pnyn p 你好
@@ -17,17 +19,54 @@ ni3 hao3
 sheng1 ri4 kuai4 le4
 
 
-.SH EXAMPLE
-.B $ pnyn p 生日快乐 | xargs pnyn pmash
+.SH EXAMPLE: ISO-compliant pinyin
+.B $ pnyn tonemarksiso 你好
+.PP
+nǐ hǎo
+
+
+.SH EXAMPLE: legacy pinyin
+.B $ pnyn tonemarks 你好
+.PP
+nĭ hăo
+
+
+.SH EXAMPLE: no spaces
+.B $ pnyn pmash 生日快乐
 .PP
 sheng1ri4kuai4le4
 
 
-.SH EXAMPLE
-.B $ pnyn p 生日快乐 | xargs pnyn pbash
+.SH EXAMPLE: no digits or spaces
+.B $ pnyn pbash 生日快乐
 .PP
 shengrikuaile
 
+
+.SH EXAMPLE: no digits or spaces
+.B $ pnyn pbash mei3guo2
+.PP
+meiguo
+
+
+.SH EXAMPLE: pinyin initials only
+.B $ pnyn psmash 生日快乐
+.PP
+srkl
+
+
+.SH EXAMPLE: pinyin initials only
+.B $ pnyn psmash sheng4 ri4 kuai4 le4
+.PP
+srkl
+
+
+.SH EXAMPLE: slug for WordPress user-friendly URL
+.B $ pnyn pslug 生日快乐
+.PP
+sheng-ri-kuai-le
+
+
 .SH VERSION
-.B v0.8.1
+.B v0.8.5
 
