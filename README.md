@@ -1,12 +1,12 @@
 # Command line Chinese to Hanyu Pinyin for Ubuntu Linux
 
 ```bash
-$ pnyn pinyin 生日快乐
+pnyn pinyin 生日快乐
 # sheng1 ri4 kuai4 le4
 ```
 
 ```bash
-$ pnyn p 生日快乐
+pnyn p 生日快乐
 # sheng1 ri4 kuai4 le4
 ```
 
@@ -18,25 +18,25 @@ $ pnyn p 生日快乐
 
 Grab the package from here:
 ```bash
-$ wget https://github.com/motetpaper/pnyn-sh/releases/download/v0.8.5/pnyn-v0.8.5.deb
+wget https://github.com/motetpaper/pnyn-sh/releases/download/v0.8.5/pnyn-v0.8.5.deb
 ```
 
 Install the Debian package.
 ```bash
-$ sudo apt install ./pnyn-v0.8.5.deb
+sudo apt install ./pnyn-v0.8.5.deb
 ```
 
 # Quick Start
 
 Convert tone numbers to tone marks.
 ```bash
-$ pnyn tonemarks ni3 hao3
+pnyn tonemarks ni3 hao3
 # nĭ hăo
 ```
 
 Convert tone numbers to [ISO-compliant][iso] tone marks.
 ```bash
-$ pnyn tonemarksiso ni3 hao3
+pnyn tonemarksiso ni3 hao3
 # nǐ hǎo
 ```
 
@@ -44,46 +44,46 @@ $ pnyn tonemarksiso ni3 hao3
 
 Convert Chinese to Hanyu Pinyin (Hanzi to Pinyin)
 ```bash
-$ pnyn pinyin 生日快乐
+pnyn pinyin 生日快乐
 # sheng1 ri4 kuai4 le4
 ```
 
 ```bash
-$ pnyn p 生日快乐
+pnyn p 生日快乐
 # sheng1 ri4 kuai4 le4
 ```
 
 
 Convert Chinese characters to Hanyu Pinyin tone marks.
 ```bash
-$ pnyn tonemarks 生日快乐
+pnyn tonemarks 生日快乐
 # shēng rì kuài lè
 ```
 
 ```bash
-$ pnyn tm 生日快乐
+pnyn tm 生日快乐
 # shēng rì kuài lè
 ```
 
 Convert Chinese characters to ISO-compliant Hanyu Pinyin tone marks.
 ```bash
-$ pnyn tonemarksiso 生日快乐
+pnyn tonemarksiso 生日快乐
 # shēng rì kuài lè
 ```
 
 ```bash
-$ pnyn tmiso 生日快乐
+pnyn tmiso 生日快乐
 # shēng rì kuài lè
 ```
 
 Convert Chinese to Hanyu Pinyin with no tones.
 ```bash
-$ pnyn tonesremoved 生日快乐
+pnyn tonesremoved 生日快乐
 # sheng ri kuai le
 ```
 
 ```bash
-$ pnyn tr 生日快乐
+pnyn tr 生日快乐
 # sheng ri kuai le
 ```
 
@@ -96,12 +96,12 @@ Here are some useful functions if you are making NoSQL document databases or Wor
 
 PMASH, removing spaces
 ```bash
-$ pnyn pmash sheng1 ri4 kuai4 le4
+pnyn pmash sheng1 ri4 kuai4 le4
 # sheng1ri4kuai4le4
 ```
 
 ```bash
-$ pnyn pmash 生日快乐
+pnyn pmash 生日快乐
 # shēng rì kuài lè
 ```
 
@@ -109,12 +109,12 @@ $ pnyn pmash 生日快乐
 
 PBASH, removing spaces and digits
 ```bash
-$ pnyn pbash 生日快乐
+pnyn pbash 生日快乐
 # shengrikuaile
 ```
 
 ```bash
-$ pnyn pbash sheng1 ri4 kuai4 le4
+pnyn pbash sheng1 ri4 kuai4 le4
 # shengrikuaile
 ```
 
@@ -123,12 +123,12 @@ $ pnyn pbash sheng1 ri4 kuai4 le4
 
 PSMASH, returning the pinyin initals
 ```bash
-$ pnyn psmash 生日快乐
+pnyn psmash 生日快乐
 # srkl
 ```
 
 ```bash
-$ pnyn psmash sheng1 ri4 kuai4 le4
+pnyn psmash sheng1 ri4 kuai4 le4
 # srkl
 ```
 
@@ -136,12 +136,12 @@ $ pnyn psmash sheng1 ri4 kuai4 le4
 
 PSLUG, for [WordPress slugs][wp_slugs]
 ```bash
-$ pnyn pslug 生日快乐
+pnyn pslug 生日快乐
 # sheng-ri-kuai-le
 ```
 
 ```bash
-$ pnyn pslug sheng1ri4kuai4le4
+pnyn pslug sheng1ri4kuai4le4
 # sheng-ri-kuai-le
 ```
 
