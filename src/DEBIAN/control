@@ -1,6 +1,6 @@
 Package: pnyn
-Version: 0.8.1
+Version: 0.8.8
 Maintainer: MOTETPAPER
 Architecture: all
-Description: Converts Chinese to Hanyu Pinyin
+Description: Converts Chinese characters to Hanyu Pinyin
 Homepage: https://github.com/motetpaper/pnyn-sh

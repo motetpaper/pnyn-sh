@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 ##
-## pnyn v0.8.5
+## pnyn v0.8.8
 ## job    : provides command-line pinyin processing for Ubuntu Linux
 ## git    : https://github.com/motetpaper/pnyn-sh
 ## lic    : MIT
@@ -15,7 +15,7 @@
 ###
 ###
 PROG=$(basename $0)
-VERSION="v0.8.5"
+VERSION="v0.8.8"
 
 ## text decorations
 REDRED="\033[31m"
@@ -90,7 +90,7 @@ pnyn_cmd_pinyin() {
   hpdata="/usr/share/motetpaper/pnyn/hp.txt"
 
   while IFS=' ' read -r hz py; do
-    outdata="${outdata/$hz/$py }"
+    outdata="${outdata//$hz/$py }"
   done < $hpdata
 
   # trim extra spaces
@@ -114,12 +114,12 @@ pnyn_cmd_tonemarksiso() {
 
   ## replaces tone with ISO-compliant tone marks
   while IFS=' ' read -r tn tmiso; do
-    outdata="${outdata/$tn/$tmiso }"
+    outdata="${outdata//$tn/$tmiso }"
   done < $tmisodata
 
   ## removes tone5
   while IFS=' ' read -r tx tf; do
-    outdata="${outdata/$tx/$tf }"
+    outdata="${outdata//$tx/$tf }"
   done < $tfdata
 
   # trim extra spaces
@@ -143,12 +143,12 @@ pnyn_cmd_tonemarks() {
 
   ## replaces tone with tone marks
   while IFS=' ' read -r tn tm; do
-    outdata="${outdata/$tn/$tm }"
+    outdata="${outdata//$tn/$tm }"
   done < $tmdata
 
   ## removes tone5
   while IFS=' ' read -r tx tf; do
-    outdata="${outdata/$tx/$tf }"
+    outdata="${outdata//$tx/$tf }"
   done < $tfdata
 
   # trim extra spaces
@@ -172,12 +172,12 @@ pnyn_cmd_tonesremoved() {
 
   ## replaces tone with tone marks
   while IFS=' ' read -r tn tr; do
-    outdata="${outdata/$tn/$tr }"
+    outdata="${outdata//$tn/$tr }"
   done < $trdata
 
   ## removes tone5
   while IFS=' ' read -r tx tf; do
-    outdata="${outdata/$tx/$tf }"
+    outdata="${outdata//$tx/$tf }"
   done < $tfdata
 
   # trim extra spaces

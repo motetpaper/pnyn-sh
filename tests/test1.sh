@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+## test1.sh
+
 APP="pnyn"
 
 sudo apt autoremove $APP -y
